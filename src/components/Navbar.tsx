@@ -1,9 +1,17 @@
 import { useState } from "react";
-import { Menu, X, ShoppingCart } from "lucide-react";
+import { Menu, X, ShoppingCart, Home, UtensilsCrossed, Users, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const menuItems = [
+    { href: "/", label: "Home", icon: Home, color: "hover:text-blue-500" },
+    { href: "/menu", label: "Menu", icon: UtensilsCrossed, color: "hover:text-green-500" },
+    { href: "/about", label: "About", icon: Users, color: "hover:text-purple-500" },
+    { href: "/contact", label: "Contact", icon: PhoneCall, color: "hover:text-pink-500" },
+  ];
 
   return (
     <nav className="bg-white shadow-sm fixed w-full z-50">
@@ -14,11 +22,24 @@ const Navbar = () => {
           </div>
           
           <div className="hidden md:flex items-center space-x-8">
-            <a href="/" className="font-inter text-gray-700 hover:text-primary">Home</a>
-            <a href="/menu" className="font-inter text-gray-700 hover:text-primary">Menu</a>
-            <a href="/about" className="font-inter text-gray-700 hover:text-primary">About</a>
-            <a href="/contact" className="font-inter text-gray-700 hover:text-primary">Contact</a>
-            <Button variant="ghost" size="icon">
+            {menuItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className={cn(
+                  "font-inter text-gray-700 flex items-center gap-2 transition-colors",
+                  item.color
+                )}
+              >
+                <item.icon className="h-4 w-4" />
+                {item.label}
+              </a>
+            ))}
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="hover:text-orange-500 transition-colors"
+            >
               <ShoppingCart className="h-5 w-5" />
             </Button>
           </div>
@@ -37,10 +58,19 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="/" className="block px-3 py-2 text-gray-700 hover:text-primary font-inter">Home</a>
-            <a href="/menu" className="block px-3 py-2 text-gray-700 hover:text-primary font-inter">Menu</a>
-            <a href="/about" className="block px-3 py-2 text-gray-700 hover:text-primary font-inter">About</a>
-            <a href="/contact" className="block px-3 py-2 text-gray-700 hover:text-primary font-inter">Contact</a>
+            {menuItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className={cn(
+                  "block px-3 py-2 text-gray-700 font-inter flex items-center gap-2",
+                  item.color
+                )}
+              >
+                <item.icon className="h-4 w-4" />
+                {item.label}
+              </a>
+            ))}
           </div>
         </div>
       )}
